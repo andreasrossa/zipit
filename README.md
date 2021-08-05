@@ -4,9 +4,6 @@ zipit
 Takes mod files and zips them in a specific structure
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/zipit.svg)](https://npmjs.org/package/zipit)
-[![Downloads/week](https://img.shields.io/npm/dw/zipit.svg)](https://npmjs.org/package/zipit)
-[![License](https://img.shields.io/npm/l/zipit.svg)](https://github.com/andreasrossa/zipit/blob/master/package.json)
 
 <!-- toc -->
 * [Usage](#usage)
