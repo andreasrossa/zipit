@@ -7,7 +7,6 @@ Takes mod files and zips them in a specific structure
 
 <!-- toc -->
 * [Usage](#usage)
-* [Commands](#commands)
 * [Todo](#todo)
 <!-- tocstop -->
 # Usage
@@ -31,6 +30,14 @@ $ zipit -i -p '(.+)-mod-(\d+\.\d+\.\d+)'
 # one for the name and one for the version.
 # Default: ([a-z-]+?)-([0-9]+\.[0-9]+\.[0-9]+)
 ```
+
+Folder structure currently is:
+```
+config/
+mods/
+├─ cool-mod-1.2.3
+```
+
 <!-- usagestop -->
 
 # Todo 
