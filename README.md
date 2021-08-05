@@ -11,20 +11,21 @@ Takes mod files and zips them in a specific structure
 <!-- toc -->
 * [Usage](#usage)
 * [Commands](#commands)
+* [Todo](#todo)
 <!-- tocstop -->
 # Usage
 <!-- usage -->
 ```sh-session
 $ npm install -g zipit
+$ zipit COMMAND
+running command...
 $ zipit (-v|--version|version)
-zipit/0.0.0 darwin-arm64 node-v16.5.0
+zipit/1.0.2 darwin-arm64 node-v16.5.0
 $ zipit --help [COMMAND]
 USAGE
-  $ zipit [output folder] [-p <regex>]
+  $ zipit COMMAND
 ...
 ```
-The specified capture group has to include 2 capture groups - one for the name and one for the version.
-
 <!-- usagestop -->
 # Commands
 <!-- commands -->
