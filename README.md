@@ -15,22 +15,26 @@ Takes mod files and zips them in a specific structure
 <!-- tocstop -->
 # Usage
 <!-- usage -->
-```sh-session
+```bash
 $ npm install -g zipit
-$ zipit COMMAND
-running command...
-$ zipit (-v|--version|version)
-zipit/1.0.0 darwin-arm64 node-v16.5.0
-$ zipit --help [COMMAND]
-USAGE
-  $ zipit COMMAND
-...
+
+$ zipit   
+# Takes the current directory as input and defaults to "./zippedit" for output.
+
+$ zipit -c
+# Additionally deletes the created temp-directory after completion.
+
+$ zipit -i mymods zippedmods
+# The -i flag supplies the input folder and
+# the first positional argument the output folder.
+
+$ zipit -i -p '(.+)-mod-(\d+\.\d+\.\d+)'
+# Supplies a regex to match for mod files.
+# The regex has to have 2 capture groups, 
+# one for the name and one for the version.
+# Default: ([a-z-]+?)-([0-9]+\.[0-9]+\.[0-9]+)
 ```
 <!-- usagestop -->
-# Commands
-<!-- commands -->
-
-<!-- commandsstop -->
 
 # Todo 
 - let the user specify the folder structure via yaml file
