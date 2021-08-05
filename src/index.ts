@@ -1,6 +1,6 @@
 import { Command, flags } from '@oclif/command';
 import * as archiver from "archiver";
-import * as fs from "fs-extra";
+import * as fs from "fs";
 
 const FILE_EXTENSION = ".zip"
 const nameRegex = /([a-z-]+?)-([0-9]+\.[0-9]+\.[0-9]+)/g
@@ -26,7 +26,8 @@ class Zipit extends Command {
     help: flags.help({char: 'h'}),
 
     input: flags.string({char: 'i', description: 'input folder'}),
-    pattern: flags.string({char: 'p', description: 'regex pattern to match source files'})
+    pattern: flags.string({char: 'p', description: 'regex pattern to match source files'}),
+    clear: flags.boolean({char: 'c', description: 'deletes the temporary .zipittemp folder on completion'})
   }
 
   static args = [
@@ -39,7 +40,7 @@ class Zipit extends Command {
   ];
 
   async run() {
-    const {args: { output = "./zippedit" }, flags: { input = ".", pattern }} = this.parse(Zipit)
+    const {args: { output = "./zippedit" }, flags: { input = ".", pattern, clear }} = this.parse(Zipit)
 
     const tempFolderName = ".zipittemp"
     const tempFolder = `${input}/${tempFolderName}`;
@@ -59,6 +60,10 @@ class Zipit extends Command {
       handleFile(file, tempFolder, input, output, pattern)
     }
 
+
+    if(clear === true) {
+      fs.rmdirSync(tempFolder)
+    }
   }
 }
 
@@ -100,7 +105,7 @@ const handleFile = (file: string, tempFolder: string, input: string, output: str
   const modFolder = fs.mkdtempSync(`${tempFolder}/`)
   fs.mkdirSync(`${modFolder}/mods`)
   fs.mkdirSync(`${modFolder}/config`)
-  fs.copySync(`${input}/${file}`, `${modFolder}/mods/${file}`)
+  fs.copyFileSync(`${input}/${file}`, `${modFolder}/mods/${file}`)
 
   const zipFilePath = `${output}/${fileName}`
 
@@ -119,11 +124,13 @@ const handleFile = (file: string, tempFolder: string, input: string, output: str
     throw err;
   });
 
-  archive.pipe(zipfile);
-
-  archive.directory(modFolder, false)
-  
-  archive.finalize()
+  try {
+    archive.pipe(zipfile)
+    archive.directory(modFolder, false)
+    archive.finalize()
+  } catch (err) {
+    console.log("")
+  }
 }
 
 export = Zipit
