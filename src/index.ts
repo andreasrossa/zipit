@@ -1,6 +1,7 @@
 import { Command, flags } from '@oclif/command';
 import * as archiver from "archiver";
 import * as fs from "fs";
+import * as rimraf from "rimraf";
 
 const FILE_EXTENSION = ".zip"
 const nameRegex = /([a-z-]+?)-([0-9]+\.[0-9]+\.[0-9]+)/g
@@ -62,7 +63,11 @@ class Zipit extends Command {
 
 
     if(clear === true) {
-      fs.rmdirSync(tempFolder)
+      rimraf(tempFolder, (err) => {
+        if(!!err) {
+          throw Error(`Failed to remove temp folder: ${err.message}`)
+        }
+      })
     }
   }
 }
@@ -102,10 +107,15 @@ const handleFile = (file: string, tempFolder: string, input: string, output: str
     throw Error("File matched the regex, but the regex contains more or less than 2 capture groups.")
   }
 
-  const modFolder = fs.mkdtempSync(`${tempFolder}/`)
-  fs.mkdirSync(`${modFolder}/mods`)
-  fs.mkdirSync(`${modFolder}/config`)
-  fs.copyFileSync(`${input}/${file}`, `${modFolder}/mods/${file}`)
+  let modFolder;
+  try {
+    modFolder = fs.mkdtempSync(`${tempFolder}/`)
+    fs.mkdirSync(`${modFolder}/mods`)
+    fs.mkdirSync(`${modFolder}/config`)
+    fs.copyFileSync(`${input}/${file}`, `${modFolder}/mods/${file}`)
+  } catch (err) {
+    throw Error(`Failed while creating folder structure: ${(<Error>err).message}`)
+  }
 
   const zipFilePath = `${output}/${fileName}`
 
@@ -129,7 +139,8 @@ const handleFile = (file: string, tempFolder: string, input: string, output: str
     archive.directory(modFolder, false)
     archive.finalize()
   } catch (err) {
-    console.log("")
+    console.error(`Failed during archiving for file '${file}'. Skipping...`)
+    return
   }
 }
 

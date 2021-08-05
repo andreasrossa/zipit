@@ -20,7 +20,7 @@ $ npm install -g zipit
 $ zipit COMMAND
 running command...
 $ zipit (-v|--version|version)
-zipit/1.0.2 darwin-arm64 node-v16.5.0
+zipit/1.0.0 darwin-arm64 node-v16.5.0
 $ zipit --help [COMMAND]
 USAGE
   $ zipit COMMAND
